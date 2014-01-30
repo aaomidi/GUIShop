@@ -1,0 +1,10 @@
+name: GUIShop
+main: co.mccn.guishop.GUIShop
+version: ${project.version}
+author: aaomidi
+authors: [aaomidi]
+depend: [Vault]
+commands:
+  shop:
+    description: Access shop.
+    usage: /shop
