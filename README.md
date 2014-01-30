@@ -44,6 +44,17 @@ Pictures:
  [Click to view image][6]
 
 ---
+##Commands and Permissions##
+Commands and Permissions are very...very simple:
+ 1. /shop --- NoPermissions
+
+Uh...and you're done!
+
+---
+##Configuration##
+It should be very self explanatory... I'll comment the config.yml soon as well...
+
+---
 ##Issues##
 Please use Github's issue manager. I will probably not respond here...
 Sorry
@@ -86,4 +97,3 @@ And as the Main Developer of MCCN. I'd like to tell you guys that most of our pl
 [8]: http://i.imgur.com/IMY45se.png
 [9]: http://dev.bukkit.org/bukkit-plugins/vault/
 [10]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=GGHS9N5EPRQD4
-</markdown></p>
