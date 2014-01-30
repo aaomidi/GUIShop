@@ -1,5 +1,3 @@
-<p><markdown>
-#Markdown Live Editor#
 #GUIShop#
 
 This plugin utilizes Minecraft's inventory system to create an easy to use shop.
