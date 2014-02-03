@@ -20,6 +20,10 @@
             <id>vault-repo</id>
             <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
         </repository>
+        <repository>
+            <id>ess-repo</id>
+            <url>http://repo.ess3.net/content/repositories/esssnapshot</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -36,6 +40,11 @@
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
             <version>1.2.30</version>
+        </dependency>
+        <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>Essentials</artifactId>
+            <version>2.13-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

@@ -161,25 +161,26 @@ public class EventsManager implements Listener {
                             for (ItemStack item : player.getInventory().getContents()) {
                                 if (a < count) {
                                     if (item != null) {
-                                        if (item.getType().equals(shopItem.getItem())) ;
-                                        if (item.getAmount() == count) {
-                                            player.getInventory().remove(item);
-                                            _plugin.getSellMap().remove(player.getName());
-                                            _plugin.getChatManager().sendMessage(player, "&bTransaction was successful!\n&bNew balance: &e" + eco.getBalance(player.getName()));
-                                            player.playSound(player.getLocation(), Sound.valueOf(_plugin.getConfigManager().getGeneralSettingsMap().get("SellSound")), 1, 0);
-                                            event.setCancelled(true);
-                                            return;
-                                        } else if (item.getAmount() > count) {
-                                            item.setAmount(item.getAmount() - count);
-                                            _plugin.getSellMap().remove(player.getName());
-                                            _plugin.getChatManager().sendMessage(player, "&bTransaction was successful!\n&bNew balance: &e" + eco.getBalance(player.getName()));
-                                            player.playSound(player.getLocation(), Sound.valueOf(_plugin.getConfigManager().getGeneralSettingsMap().get("SellSound")), 1, 0);
-                                            event.setCancelled(true);
-                                            return;
-                                        } else {
-                                            count = count - item.getAmount();
-                                            player.getInventory().remove(item);
-                                            a++;
+                                        if (item.getType().equals(shopItem.getItem().getType())) {
+                                            if (item.getAmount() == count) {
+                                                player.getInventory().removeItem(item);
+                                                _plugin.getSellMap().remove(player.getName());
+                                                _plugin.getChatManager().sendMessage(player, "&bTransaction was successful!\n&bNew balance: &e" + eco.getBalance(player.getName()));
+                                                player.playSound(player.getLocation(), Sound.valueOf(_plugin.getConfigManager().getGeneralSettingsMap().get("SellSound")), 1, 0);
+                                                event.setCancelled(true);
+                                                return;
+                                            } else if (item.getAmount() > count) {
+                                                item.setAmount(item.getAmount() - count);
+                                                _plugin.getSellMap().remove(player.getName());
+                                                _plugin.getChatManager().sendMessage(player, "&bTransaction was successful!\n&bNew balance: &e" + eco.getBalance(player.getName()));
+                                                player.playSound(player.getLocation(), Sound.valueOf(_plugin.getConfigManager().getGeneralSettingsMap().get("SellSound")), 1, 0);
+                                                event.setCancelled(true);
+                                                return;
+                                            } else {
+                                                count = count - item.getAmount();
+                                                player.getInventory().remove(item);
+                                                a++;
+                                            }
                                         }
                                     }
                                 }

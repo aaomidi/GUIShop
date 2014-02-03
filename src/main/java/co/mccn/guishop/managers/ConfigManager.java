@@ -3,14 +3,17 @@ package co.mccn.guishop.managers;
 import co.mccn.guishop.GUIShop;
 import co.mccn.guishop.objects.CategoryItem;
 import co.mccn.guishop.objects.ShopItem;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class ConfigManager {
+    private static Economy economy = null;
     private final GUIShop _plugin;
     private HashMap<String, String> generalSettingsMap;
     private HashMap<Integer, CategoryItem> categoryInformationMap;
@@ -103,6 +106,24 @@ public class ConfigManager {
 
     public HashMap<String, String> getLanguageInformationMap() {
         return languageInformationMap;
+    }
+
+    public String reloadConfig() {
+        try {
+            _plugin.reloadConfig();
+            config = _plugin.getConfig();
+            this.generalSettingsMap.clear();
+            this.categoryInformationMap.clear();
+            this.languageInformationMap.clear();
+            this.getGeneralSettings();
+            this.getShopCategories();
+            this.getLanguageInformation();
+            _plugin.getInventoryManager().createMainInventor();
+            return "&bReloaded config.";
+        } catch (Exception ex) {
+            _plugin.getLogger().log(Level.SEVERE, ex.getMessage());
+            return "&cProblem when reloading config.";
+        }
     }
 
 }

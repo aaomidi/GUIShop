@@ -2,6 +2,7 @@ package co.mccn.guishop;
 
 import co.mccn.guishop.managers.*;
 import co.mccn.guishop.objects.ShopItem;
+import com.earth2me.essentials.Essentials;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -13,6 +14,7 @@ import java.util.logging.Level;
 
 public class GUIShop extends JavaPlugin {
     private static Economy economy = null;
+    private Essentials essentials;
     private ConfigManager configManager;
     private UtilsManager utilsManager;
     private InventoryManager inventoryManager;
@@ -40,6 +42,7 @@ public class GUIShop extends JavaPlugin {
         buyMap = new HashMap<>();
         sellMap = new HashMap<>();
         this.setupVault();
+        this.setupEssentials();
         utilsManager = new UtilsManager(this);
         configManager = new ConfigManager(this);
         inventoryManager = new InventoryManager(this);
@@ -49,6 +52,20 @@ public class GUIShop extends JavaPlugin {
         eventsManager = new EventsManager(this);
         this.getServer().getPluginManager().registerEvents(eventsManager, this);
 
+    }
+
+    private void setupEssentials() {
+        Plugin plugin = this.getServer().getPluginManager().getPlugin("Essentials");
+        if (plugin == null) {
+            this.getLogger().log(Level.SEVERE, "Essentials was not found, disabling plugin");
+            this.getServer().getPluginManager().disablePlugin(this);
+        } else {
+            essentials = (Essentials) plugin;
+        }
+    }
+
+    public Essentials getEssentials() {
+        return essentials;
     }
 
     public ConfigManager getConfigManager() {

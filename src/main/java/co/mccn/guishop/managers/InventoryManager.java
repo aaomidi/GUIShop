@@ -21,7 +21,7 @@ public class InventoryManager {
         this.createMainInventor();
     }
 
-    private void createMainInventor() {
+    public void createMainInventor() {
         //Name of the Main Inventory;
         String name = _plugin.getConfigManager().getGeneralSettingsMap().get("Name");
         String colorizedName = _plugin.getUtilsManager().colorizeString(name);
