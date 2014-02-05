@@ -226,7 +226,7 @@ public class EventsManager implements Listener {
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5***************&6GUIShop&5***************\n&6This server is running GUIShop " + _plugin.getDescription().getVersion() + "\n&6Developed by &c@aaomidi\n&6Bukkit: &ahttp://stuff.com/\n&6Test Server: &aMCCN.co\n&5**************************************"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5***************&6GUIShop&5***************\n&6This server is running GUIShop " + _plugin.getDescription().getVersion() + "\n&6Developed by &c@aaomidi\n&5**************************************"));
             }
         };
         runnable.runTaskLater(_plugin, 60L);
