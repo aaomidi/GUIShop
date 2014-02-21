@@ -170,7 +170,9 @@ public class EventsManager implements Listener {
                                                 event.setCancelled(true);
                                                 return;
                                             } else if (item.getAmount() > count) {
-                                                item.setAmount(item.getAmount() - count);
+                                                int amount = item.getAmount();
+                                                item.setAmount(amount - count);
+                                                item.setAmount(4);
                                                 _plugin.getSellMap().remove(player.getName());
                                                 _plugin.getChatManager().sendMessage(player, "&bTransaction was successful!\n&bNew balance: &e" + eco.getBalance(player.getName()));
                                                 player.playSound(player.getLocation(), Sound.valueOf(_plugin.getConfigManager().getGeneralSettingsMap().get("SellSound")), 1, 0);
@@ -178,7 +180,7 @@ public class EventsManager implements Listener {
                                                 return;
                                             } else {
                                                 count = count - item.getAmount();
-                                                player.getInventory().remove(item);
+                                                player.getInventory().removeItem(item);
                                                 a++;
                                             }
                                         }
