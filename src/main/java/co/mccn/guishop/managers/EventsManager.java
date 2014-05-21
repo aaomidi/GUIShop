@@ -113,7 +113,7 @@ public class EventsManager implements Listener {
                                 } else {
                                 }
                             }
-                            _plugin.getChatManager().sendMessage(player, "&bTransaction was successful!\n&bNew balance: &e" + eco.getBalance(player.getName()));
+                            _plugin.getChatManager().sendMessage(player, "&7Transaction was successful!\n&7New balance: &a" + eco.getBalance(player.getName()));
                             _plugin.getBuyMap().remove(player.getName());
                             player.playSound(player.getLocation(), Sound.valueOf(_plugin.getConfigManager().getGeneralSettingsMap().get("BuySound")), 1, 0);
                             event.setCancelled(true);
@@ -165,7 +165,7 @@ public class EventsManager implements Listener {
                                             if (item.getAmount() == count) {
                                                 player.getInventory().removeItem(item);
                                                 _plugin.getSellMap().remove(player.getName());
-                                                _plugin.getChatManager().sendMessage(player, "&bTransaction was successful!\n&bNew balance: &e" + eco.getBalance(player.getName()));
+                                                _plugin.getChatManager().sendMessage(player, "&7Transaction was successful!\n&7New balance: &a$" + eco.getBalance(player.getName()));
                                                 player.playSound(player.getLocation(), Sound.valueOf(_plugin.getConfigManager().getGeneralSettingsMap().get("SellSound")), 1, 0);
                                                 event.setCancelled(true);
                                                 return;
@@ -174,7 +174,7 @@ public class EventsManager implements Listener {
                                                 item.setAmount(amount - count);
                                                 item.setAmount(4);
                                                 _plugin.getSellMap().remove(player.getName());
-                                                _plugin.getChatManager().sendMessage(player, "&bTransaction was successful!\n&bNew balance: &e" + eco.getBalance(player.getName()));
+                                                _plugin.getChatManager().sendMessage(player, "&7Transaction was successful!\n&7New balance: &a$" + eco.getBalance(player.getName()));
                                                 player.playSound(player.getLocation(), Sound.valueOf(_plugin.getConfigManager().getGeneralSettingsMap().get("SellSound")), 1, 0);
                                                 event.setCancelled(true);
                                                 return;
@@ -188,7 +188,7 @@ public class EventsManager implements Listener {
                                 }
                             }
                             _plugin.getSellMap().remove(player.getName());
-                            _plugin.getChatManager().sendMessage(player, "&bTransaction was successful!\n&bNew balance: &e" + eco.getBalance(player.getName()));
+                            _plugin.getChatManager().sendMessage(player, "&7Transaction was successful!\n&7New balance: &a$" + eco.getBalance(player.getName()));
                             player.playSound(player.getLocation(), Sound.valueOf(_plugin.getConfigManager().getGeneralSettingsMap().get("SellSound")), 1, 0);
                             event.setCancelled(true);
                             return;
@@ -222,25 +222,14 @@ public class EventsManager implements Listener {
 
     }
 
-    @EventHandler
-    private void onPlayerJoin(PlayerJoinEvent event) {
-        final Player player = event.getPlayer();
-        BukkitRunnable runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5***************&6GUIShop&5***************\n&6This server is running GUIShop " + _plugin.getDescription().getVersion() + "\n&6Developed by &c@aaomidi\n&5**************************************"));
-            }
-        };
-        runnable.runTaskLater(_plugin, 60L);
-    }
 
     private void buyItemMessages(Player player, ShopItem shopItem) {
         Economy eco = _plugin.getEconomy();
         Double playerBalance = eco.getBalance(player.getName());
         Double itemPrice = shopItem.getBuyPrice();
         Integer buyable = (int) (playerBalance / itemPrice);
-        _plugin.getChatManager().sendMessage(player, "&bPlease enter the amount you want to buy:\n&bRemeber each is priced at: " + shopItem.getBuyPrice() + "$");
-        _plugin.getChatManager().sendMessage(player, "&bYour balance is: &e" + playerBalance + "$ &byou may only buy &e" + buyable + "&b.");
+        _plugin.getChatManager().sendMessage(player, "&7Please enter the amount you want to buy:\n&7Remember each is priced at:&a " + "$" + shopItem.getBuyPrice());
+        _plugin.getChatManager().sendMessage(player, "&7Your balance is: &a" + "$" + playerBalance + " &7you may only buy &a" + buyable + "&7.");
         _plugin.getBuyMap().put(player.getName(), shopItem);
         _plugin.getSellMap().remove(player.getName());
     }
@@ -248,10 +237,10 @@ public class EventsManager implements Listener {
     private void sellItemMessages(Player player, ShopItem shopItem) {
         int amount = this.getAmountInInventory(player, shopItem);
         if (amount != 0) {
-            _plugin.getChatManager().sendMessage(player, "&bPlease enter the amount you want to sell:\n&bRemeber each is priced at: " + shopItem.getSellPrice() + "$");
+            _plugin.getChatManager().sendMessage(player, "&7Please enter the amount you want to sell:\n&7Remember each is priced at:&a " + "$" + shopItem.getSellPrice());
             _plugin.getBuyMap().remove(player.getName());
             _plugin.getSellMap().put(player.getName(), shopItem);
-            _plugin.getChatManager().sendMessage(player, "&bYou may only sell &e" + amount + " &bof that Item.");
+            _plugin.getChatManager().sendMessage(player, "&7You may only sell &a" + amount + " &7of that Item.");
 
         } else {
             _plugin.getBuyMap().remove(player.getName());
