@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.regex.Pattern;
 
@@ -54,12 +55,18 @@ public class EventsManager implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
         if (Caching.getBuyInventoryMap().containsKey(player)) {
-            GUIStock guiStock = Caching.getBuyInventoryMap().get(player);
+            final GUIStock guiStock = Caching.getBuyInventoryMap().get(player);
             if (pattern.matcher(event.getMessage()).matches()) {
-                Integer amount = Integer.valueOf(event.getMessage());
-                guiStock.buy(player, amount);
+                final Integer amount = Integer.valueOf(event.getMessage());
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        guiStock.buy(player, amount);
+
+                    }
+                }.runTask(_plugin);
             } else {
                 StringManager.sendMessage(player, "&3Please enter a number.");
             }
@@ -68,10 +75,16 @@ public class EventsManager implements Listener {
             return;
         }
         if (Caching.getSellInventoryMap().containsKey(player)) {
-            GUIStock guiStock = Caching.getSellInventoryMap().get(player);
+            final GUIStock guiStock = Caching.getSellInventoryMap().get(player);
             if (pattern.matcher(event.getMessage()).matches()) {
-                Integer amount = Integer.valueOf(event.getMessage());
-                guiStock.sell(player, amount);
+                final Integer amount = Integer.valueOf(event.getMessage());
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        guiStock.sell(player, amount);
+
+                    }
+                }.runTask(_plugin);
             } else {
                 StringManager.sendMessage(player, "&3Please enter a number.");
             }

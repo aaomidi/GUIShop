@@ -10,7 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -149,8 +151,24 @@ public class GUIStock extends MenuBehaviour {
         StringManager.sendMessage(player, String.format("&bYou have successfully sold &e%d %s&b.", amount, GUIShop.getEss().getItemDb().name(item)));
         player.playSound(player.getLocation(), ConfigReader.getSellSound(), 1, 0);
         GUIShop.getEconomy().depositPlayer(player, amount * sellPrice);
-        while (amount-- != 0) {
-            player.getInventory().removeItem(item);
+        ItemStack itemStack;
+        Inventory inv = player.getInventory();
+        for (int i = 0; i < inv.getSize() && amount > 0; i++) {
+            itemStack = inv.getItem(i);
+            if (itemStack == null || itemStack.getType() == Material.AIR || itemStack.getType() != item.getType()) {
+                continue;
+            }
+            System.out.print("First Amount: " + amount);
+            amount -= itemStack.getAmount();
+            System.out.print("Stack: " + itemStack.getAmount());
+            System.out.println("Amount: " + amount);
+            if (amount >= 0) {
+                inv.setItem(i, null);
+            } else {
+                itemStack.setAmount(-1 * amount);
+            }
         }
+        player.updateInventory();
+
     }
 }
