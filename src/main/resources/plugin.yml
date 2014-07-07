@@ -1,9 +1,9 @@
 name: GUIShop
-main: co.mccn.guishop.GUIShop
+main: com.aaomidi.dev.guishop.GUIShop
 version: ${project.version}
 author: aaomidi
 authors: [aaomidi]
-depend: [Vault]
+depend: [Vault, Essentials]
 commands:
   shop:
     description: Access shop.

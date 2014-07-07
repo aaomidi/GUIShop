@@ -1,276 +1,41 @@
-#General Settings for the plugin.
-Main:
-  #Name of the plugin, used both for commands and Inventory
-  Name: "&7[&6GUIShop&7]"
-  #Size of the Main Inventory
-  Size: 1
-  #Sound to be played when Item is bought
-  BuySound: ITEM_PICKUP
-  #Sound to be played when Item is sold
-  SellSound: ITEM_PICKUP
-  #Sound to be played when item sale returns false
-  DenySound: VILLAGER_NO
-Language:
-  CategoryName: "&b%cat%"
-  BuyPrice: "&eBuy at $%price% each!"
-  SellPrice: "&eSell at $%price% each!"
-  Buy: "&7Left click to buy!"
-  Sell: "&7Right click to sell!"
-  Back: "&6Go back"
-List:
-  Blocks:
-    Size: 2
-    Icon: Grass
-    Description: '&7Left click to open'
-    Stock:
-      Stone:
-        BuyPrice: 64
-        SellPrice: 24
-      Dirt:
-        BuyPrice: 32
-        SellPrice: 16
-      Grass:
-        BuyPrice: 162
-        SellPrice: 64
-      Cobblestone:
-        BuyPrice: 32
-        SellPrice: 16
-      Log:
-        BuyPrice: 32
-        SellPrice: 16
-      'Log:1':
-        BuyPrice: 32
-        SellPrice: 16
-      'Log:2':
-        BuyPrice: 32
-        SellPrice: 16
-      'Log:3':
-        BuyPrice: 32
-        SellPrice: 16
-      Glass:
-        BuyPrice: 32
-        SellPrice: 12
-      Wool:
-        BuyPrice: 64
-        SellPrice: 8
-      Bookshelf:
-        BuyPrice: 24
-        SellPrice: 2
-      Sand:
-        BuyPrice: 16
-        SellPrice: 8
-      Netherrack:
-        BuyPrice: 32
-        SellPrice: 8
-      Nether_Brick:
-        BuyPrice: 24
-        SellPrice: 8
-      Obsidian:
-        BuyPrice: 48
-        SellPrice: 12
-      Clay:
-        BuyPrice: 24
-        SellPrice: 6
-  Special:
+General-Settings:
+    Prefix: "&7[&6GUIShop&7] "
+Inventory-Settings:
+    Name: "     &6GUIShop!     "
     Size: 1
-    Icon: Sponge
-    Description: '&7Left click to open'
-    Stock:
-      'SMOOTH_BRICK:1':
-        BuyPrice: 32
-        SellPrice: 8
-      'SMOOTH_BRICK:2':
-        BuyPrice: 32
-        SellPrice: 8
-      'SMOOTH_BRICK:3':
-        BuyPrice: 32
-        SellPrice: 8
-      'DOUBLE_STEP:8':
-        BuyPrice: 32
-        SellPrice: 8
-      'DOUBLE_STEP:9':
-        BuyPrice: 32
-        SellPrice: 8
-      Sponge:
-        BuyPrice: 64
-        SellPrice: 8
-  Material:
-    Size: 1
-    Icon: Gold_Ingot
-    Description: '&7Left click to open'
-    Stock:
-      Quartz:
-        BuyPrice: 24
-        SellPrice: 8
-      Coal:
-        BuyPrice: 16
-        SellPrice: 8
-      Iron_Ingot:
-        BuyPrice: 10
-        SellPrice: 6
-      Gold_Ingot:
-        BuyPrice: 15
-        SellPrice: 4
-      'Ink_Sack:4':
-        BuyPrice: 32
-        SellPrice: 8
-        Name: "&6Lapis Lazuli"
-      Diamond:
-        BuyPrice: 300
-        SellPrice: 100
-      Emerald:
-        BuyPrice: 150
-        SellPrice: 75
-      Nether_Star:
-        BuyPrice: 15000
-        SellPrice: 1000
-  Food:
-    Size: 1
-    Icon: Bread
-    Description: '&7Left click to open'
-    Stock:
-      Apple:
-        BuyPrice: 25
-        SellPrice: 5
-      Bread:
-        BuyPrice: 32
-        SellPrice: 8
-      Cooked_Beef:
-        BuyPrice: 32
-        SellPrice: 4
-      Grilled_Pork:
-        BuyPrice: 32
-        SellPrice: 4
-      Cooked_Chicken:
-        BuyPrice: 32
-        SellPrice: 4
-      Cooked_Fish:
-        BuyPrice: 32
-        SellPrice: 8
-      Cookie:
-        BuyPrice: 32
-        SellPrice: 8
-      Mushroom_Soup:
-        BuyPrice: 32
-        SellPrice: 12
-  Farming:
-    Size: 1
-    Icon: Seeds
-    Description: '&7Left click to open'
-    Stock:
-      Seeds:
-        BuyPrice: 16
-        SellPrice: 2
-      Pumpkin_Seeds:
-        BuyPrice: 24
-        SellPrice: 4
-      Melon_Seeds:
-        BuyPrice: 64
-        SellPrice: 6
-      Wheat:
-        BuyPrice: 32
-        SellPrice: 4
-      Sugar_Cane:
-        BuyPrice: 24
-        SellPrice: 12
-      Carrot_item:
-        BuyPrice: 32
-        SellPrice: 8
-      Potato_Item:
-        BuyPrice: 32
-        SellPrice: 8
-      Water_lily:
-        BuyPrice: 54
-        SellPrice: 12
-  Drops:
-    Size: 1
-    Icon: Bone
-    Description: '&7Left click to open'
-    Stock:
-      Bone:
-        BuyPrice: 24
-        SellPrice: 6
-      Arrow:
-        BuyPrice: 32
-        SellPrice: 8
-      Spider_eye:
-        BuyPrice: 24
-        SellPrice: 8
-      String:
-        BuyPrice: 16
-        SellPrice: 4
-      Rotten_Flesh:
-        BuyPrice: 16
-        SellPrice: 4
-      Slime_ball:
-        BuyPrice: 54
-        SellPrice: 16
-      Ender_Pearl:
-        BuyPrice: 72
-        SellPrice: 12
-      Leather:
-        BuyPrice: 32
-        SellPrice: 12
-  Brewing:
-    Size: 1
-    Icon: Glass_Bottle
-    Description: '&7Left click to open'
-    Stock:
-      Redstone:
-        BuyPrice: 16
-        SellPrice: 2
-      Glowstone_Dust:
-        BuyPrice: 42
-        SellPrice: 4
-      Sulphur:
-        BuyPrice: 54
-        SellPrice: 8
-      Sugar:
-        BuyPrice: 8
-        SellPrice: 4
-      Blaze_Rod:
-        BuyPrice: 256
-        SellPrice: 16
-      Ghast_Tear:
-        BuyPrice: 256
-        SellPrice: 54
-      Nether_Stalk:
-        BuyPrice: 64
-        SellPrice: 8
-  Spawners:
-    Size: 1
-    Icon: MOB_SPAWNER
-    Description: '&7Left click to open'
-    Stock:
-      'MOB_SPAWNER:90':
-        BuyPrice: 25000
-        SellPrice: 0
-        Name: '&6Pig Spawner'
-      'MOB_SPAWNER:92':
-        BuyPrice: 35000
-        SellPrice: 0
-        Name: '&6Cow Spawner'
-      'MOB_SPAWNER:95':
-        BuyPrice: 40000
-        SellPrice: 0
-        Name: '&6Wolf Spawner'
-      'MOB_SPAWNER:51':
-        BuyPrice: 50000
-        SellPrice: 0
-        Name: '&6Skeleton Spawner'
-      'MOB_SPAWNER:54':
-        BuyPrice: 50000
-        SellPrice: 0
-        Name: '&6Zombie Spawner'
-      'MOB_SPAWNER:52':
-        BuyPrice: 40000
-        SellPrice: 0
-        Name: '&6Spider Spawner'
-      'MOB_SPAWNER:58':
-        BuyPrice: 120000
-        SellPrice: 0
-        Name: '&6Endermen Spawner'
-      'MOB_SPAWNER:50':
-        BuyPrice: 120000
-        SellPrice: 0
-        Name: '&6Creeper Spawner'
+Sound-Settings:
+    Buy-Sound: ITEM_PICKUP
+    Sell-Sound: ITEM_BREAK
+    Deny-Sound: VILLAGER_NO
+Category-Settings:
+    Blocks:
+        Name: "Minecraft Blocks"
+        Size: 2
+        Icon: Grass
+        Lore:
+          - "&7Left click to open"
+        Stock:
+            Stone:
+                #The name is not neccessary, the plugin will use the item name from Essentials if name is not set.
+                Name: ""
+                #This lore is not neccessary, the plugin will use an empty lore if this is not set.
+                Lore:
+                  - ""
+                Buy-Price: 64
+                Sell-Price: 24
+                #This command is not neccessary, the plugin will use the item instead if command is not set.
+                Command: "give %p% stone 1"
+    Material:
+        Name: "Minecraft Material"
+        Size: 1
+        Icon: Stick
+        Lore:
+          - "&7Left click to open"
+        Stock:
+            Coal:
+                Name: ""
+                Lore:
+                  - ""
+                Buy-Price: 16
+                Sell-Price: 8
+                Command: ""
