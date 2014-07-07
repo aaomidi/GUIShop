@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,7 +25,7 @@ public class EventsManager implements Listener {
 
     public EventsManager(GUIShop plugin) {
         _plugin = plugin;
-        pattern = Pattern.compile("^[-+]?\\d+$");
+        pattern = Pattern.compile("^[+]?\\d+$");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -32,28 +33,40 @@ public class EventsManager implements Listener {
         Inventory inventory = event.getInventory();
         Player player = (Player) event.getWhoClicked();
         int clickedSlot = event.getRawSlot();
-        if (event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
-            if (inventory.getHolder() instanceof InventoryManager) {
-                GUICategory guiCategory = ConfigReader.getGuiCategories().get(clickedSlot);
-                guiCategory.onLeftClick(player);
-                event.setCancelled(true);
-                return;
-            }
-            if (Caching.getOpenInventoryMap().containsKey(player)) {
-                GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
-                GUIStock guiStock = guiCategory.getStock().get(clickedSlot);
-                if (event.getClick().isLeftClick()) {
-                    guiStock.onLeftClick(player);
-                } else if (event.getClick().isRightClick()) {
-                    guiStock.onRightClick(player);
-                }
+        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || inventory.getItem(clickedSlot) == null || inventory.getItem(clickedSlot).getType() == Material.AIR) {
+            return;
+        }
+        if (inventory.getHolder() instanceof InventoryManager) {
+            GUICategory guiCategory = ConfigReader.getGuiCategories().get(clickedSlot);
+            guiCategory.onLeftClick(player);
+            event.setCancelled(true);
+            return;
+        }
+        if (Caching.getOpenInventoryMap().containsKey(player)) {
+            GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
+            if (guiCategory.getStock().get(clickedSlot) == null) {
                 Caching.getOpenInventoryMap().remove(player);
-                event.setCancelled(true);
             }
+            GUIStock guiStock = guiCategory.getStock().get(clickedSlot);
+            if (event.getClick().isLeftClick()) {
+                guiStock.onLeftClick(player);
+            } else if (event.getClick().isRightClick()) {
+                guiStock.onRightClick(player);
+            }
+            Caching.getOpenInventoryMap().remove(player);
+            event.setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onInventoryClose(InventoryCloseEvent event) {
+        Player player = (Player) event.getPlayer();
+        if (Caching.getOpenInventoryMap().containsKey(player)) {
+            Caching.getOpenInventoryMap().remove(player);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
         if (Caching.getBuyInventoryMap().containsKey(player)) {

@@ -68,6 +68,11 @@ public class GUIStock extends MenuBehaviour {
         }
     }
 
+    public ItemStack toRawItemStack() {
+        ItemStack oldItem = toItemStack();
+        return new ItemStack(oldItem.getType(), 1);
+    }
+
     public boolean isItem() {
         return command == null || command.isEmpty();
     }
@@ -105,7 +110,7 @@ public class GUIStock extends MenuBehaviour {
     }
 
     public void buy(Player player, int amount) {
-        ItemStack item = toItemStack();
+        ItemStack item = toRawItemStack();
         double playerBalance = GUIShop.getEconomy().getBalance(player.getName());
         int buyableAmount = (int) Math.floor(playerBalance / buyPrice);
         EconomyResponse response = GUIShop.getEconomy().withdrawPlayer(player, buyPrice * amount);
@@ -158,10 +163,7 @@ public class GUIStock extends MenuBehaviour {
             if (itemStack == null || itemStack.getType() == Material.AIR || itemStack.getType() != item.getType()) {
                 continue;
             }
-            System.out.print("First Amount: " + amount);
             amount -= itemStack.getAmount();
-            System.out.print("Stack: " + itemStack.getAmount());
-            System.out.println("Amount: " + amount);
             if (amount >= 0) {
                 inv.setItem(i, null);
             } else {
