@@ -34,6 +34,9 @@ public class EventsManager implements Listener {
             Inventory inventory = event.getInventory();
             Player player = (Player) event.getWhoClicked();
             int clickedSlot = event.getRawSlot();
+            if (inventory.getSize() <= clickedSlot) {
+                return;
+            }
             if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || inventory.getItem(clickedSlot) == null || inventory.getItem(clickedSlot).getType() == Material.AIR) {
                 return;
             }
@@ -41,7 +44,7 @@ public class EventsManager implements Listener {
                 return;
             }
             if (!event.getSlotType().equals(InventoryType.SlotType.CONTAINER)) {
-                event.setCancelled(true);
+                return;
             }
             if (inventory.getHolder() instanceof InventoryManager) {
                 GUICategory guiCategory = ConfigReader.getGuiCategories().get(clickedSlot);
