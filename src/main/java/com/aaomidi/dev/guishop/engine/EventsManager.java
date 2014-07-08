@@ -30,31 +30,36 @@ public class EventsManager implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryInteract(InventoryClickEvent event) {
-        Inventory inventory = event.getInventory();
-        Player player = (Player) event.getWhoClicked();
-        int clickedSlot = event.getRawSlot();
-        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || inventory.getItem(clickedSlot) == null || inventory.getItem(clickedSlot).getType() == Material.AIR) {
-            return;
-        }
-        if (inventory.getHolder() instanceof InventoryManager) {
-            GUICategory guiCategory = ConfigReader.getGuiCategories().get(clickedSlot);
-            guiCategory.onLeftClick(player);
-            event.setCancelled(true);
-            return;
-        }
-        if (Caching.getOpenInventoryMap().containsKey(player)) {
-            GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
-            if (guiCategory.getStock().get(clickedSlot) == null) {
+        try {
+            Inventory inventory = event.getInventory();
+            Player player = (Player) event.getWhoClicked();
+            int clickedSlot = event.getRawSlot();
+            if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || inventory.getItem(clickedSlot) == null || inventory.getItem(clickedSlot).getType() == Material.AIR) {
+                return;
+            }
+            if (inventory.getHolder() instanceof InventoryManager) {
+                GUICategory guiCategory = ConfigReader.getGuiCategories().get(clickedSlot);
+                guiCategory.onLeftClick(player);
+                event.setCancelled(true);
+                return;
+            }
+            if (Caching.getOpenInventoryMap().containsKey(player)) {
+                GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
+                if (guiCategory.getStock().get(clickedSlot) == null) {
+                    Caching.getOpenInventoryMap().remove(player);
+                    return;
+                }
+                GUIStock guiStock = guiCategory.getStock().get(clickedSlot);
+                if (event.getClick().isLeftClick()) {
+                    guiStock.onLeftClick(player);
+                } else if (event.getClick().isRightClick()) {
+                    guiStock.onRightClick(player);
+                }
                 Caching.getOpenInventoryMap().remove(player);
+                event.setCancelled(true);
             }
-            GUIStock guiStock = guiCategory.getStock().get(clickedSlot);
-            if (event.getClick().isLeftClick()) {
-                guiStock.onLeftClick(player);
-            } else if (event.getClick().isRightClick()) {
-                guiStock.onRightClick(player);
-            }
-            Caching.getOpenInventoryMap().remove(player);
-            event.setCancelled(true);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 
