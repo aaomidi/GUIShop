@@ -70,7 +70,9 @@ public class GUIStock extends MenuBehaviour {
 
     public ItemStack toRawItemStack() {
         ItemStack oldItem = toItemStack();
-        return new ItemStack(oldItem.getType(), 1);
+        ItemStack newItem = new ItemStack(oldItem.getType(), 1);
+        newItem.setDurability(oldItem.getDurability());
+        return newItem;
     }
 
     public boolean isItem() {
