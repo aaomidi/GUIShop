@@ -43,7 +43,6 @@ public class EventsManager implements Listener {
             if (!event.getSlotType().equals(InventoryType.SlotType.CONTAINER)) {
                 event.setCancelled(true);
             }
-
             if (inventory.getHolder() instanceof InventoryManager) {
                 GUICategory guiCategory = ConfigReader.getGuiCategories().get(clickedSlot);
                 guiCategory.onLeftClick(player);
@@ -52,7 +51,7 @@ public class EventsManager implements Listener {
             }
             if (Caching.getOpenInventoryMap().containsKey(player)) {
                 GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
-                if (guiCategory.getStock().get(clickedSlot) == null) {
+                if (clickedSlot > guiCategory.getStock().size() || guiCategory.getStock().get(clickedSlot) == null) {
                     Caching.getOpenInventoryMap().remove(player);
                     //The fix
                     return;
