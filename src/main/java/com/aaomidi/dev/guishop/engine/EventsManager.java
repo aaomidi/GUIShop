@@ -47,6 +47,7 @@ public class EventsManager implements Listener {
                 GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
                 if (guiCategory.getStock().get(clickedSlot) == null) {
                     Caching.getOpenInventoryMap().remove(player);
+                    //The fix
                     return;
                 }
                 GUIStock guiStock = guiCategory.getStock().get(clickedSlot);
