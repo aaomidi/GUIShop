@@ -40,7 +40,7 @@ public class EventsManager implements Listener {
             if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR || inventory.getItem(clickedSlot) == null || inventory.getItem(clickedSlot).getType() == Material.AIR) {
                 return;
             }
-            if (inventory.getHolder().equals(player)) {
+            if (inventory.getHolder() != null && inventory.getHolder() instanceof Player) {
                 return;
             }
             if (!event.getSlotType().equals(InventoryType.SlotType.CONTAINER)) {
@@ -56,7 +56,6 @@ public class EventsManager implements Listener {
                 GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
                 if (clickedSlot > guiCategory.getStock().size() || guiCategory.getStock().get(clickedSlot) == null) {
                     Caching.getOpenInventoryMap().remove(player);
-                    //The fix
                     return;
                 }
                 GUIStock guiStock = guiCategory.getStock().get(clickedSlot);
