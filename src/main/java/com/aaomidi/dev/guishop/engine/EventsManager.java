@@ -28,7 +28,7 @@ public class EventsManager implements Listener {
         pattern = Pattern.compile("^[+]?\\d+$");
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryInteract(InventoryClickEvent event) {
         try {
             Inventory inventory = event.getInventory();
@@ -47,12 +47,13 @@ public class EventsManager implements Listener {
                 return;
             }
             if (inventory.getHolder() instanceof InventoryManager) {
+                event.setCancelled(true);
                 GUICategory guiCategory = ConfigReader.getGuiCategories().get(clickedSlot);
                 guiCategory.onLeftClick(player);
-                event.setCancelled(true);
                 return;
             }
             if (Caching.getOpenInventoryMap().containsKey(player)) {
+                event.setCancelled(true);
                 GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
                 if (clickedSlot > guiCategory.getStock().size() || guiCategory.getStock().get(clickedSlot) == null) {
                     Caching.getOpenInventoryMap().remove(player);
@@ -65,7 +66,6 @@ public class EventsManager implements Listener {
                     guiStock.onRightClick(player);
                 }
                 Caching.getOpenInventoryMap().remove(player);
-                event.setCancelled(true);
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);

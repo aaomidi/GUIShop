@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @AllArgsConstructor
@@ -121,15 +122,22 @@ public class GUIStock extends MenuBehaviour {
             player.playSound(player.getLocation(), ConfigReader.getDenySound(), 1, 0);
             return;
         }
+        HashMap<Integer, ItemStack> dropItems = new HashMap<>();
         if (amount <= buyableAmount) {
             if (this.isItem()) {
                 while (amount-- != 0) {
-                    player.getInventory().addItem(item);
+                    dropItems = player.getInventory().addItem(item);
                 }
             } else {
                 while (amount-- != 0) {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%p%", player.getName()));
                 }
+            }
+            if (!dropItems.isEmpty()) {
+                for (ItemStack i : dropItems.values()) {
+                    player.getWorld().dropItem(player.getLocation(), i);
+                }
+                StringManager.sendMessage(player, "&ball the items didn't fit in your inventory so we dropped them to the ground.");
             }
             StringManager.sendMessage(player, "&bYou successfully bought that item.");
             player.playSound(player.getLocation(), ConfigReader.getBuySound(), 1, 0);
