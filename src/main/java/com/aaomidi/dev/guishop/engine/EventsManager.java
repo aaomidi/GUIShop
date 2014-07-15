@@ -14,23 +14,29 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class EventsManager implements Listener {
+    private static Set<String> fix;
     private final GUIShop _plugin;
     Pattern pattern;
 
     public EventsManager(GUIShop plugin) {
         _plugin = plugin;
         pattern = Pattern.compile("^[+]?\\d+$");
+        fix = new HashSet<>();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryInteract(InventoryClickEvent event) {
         try {
+
             Inventory inventory = event.getInventory();
             Player player = (Player) event.getWhoClicked();
             int clickedSlot = event.getRawSlot();
@@ -50,6 +56,7 @@ public class EventsManager implements Listener {
                 event.setCancelled(true);
                 GUICategory guiCategory = ConfigReader.getGuiCategories().get(clickedSlot);
                 guiCategory.onLeftClick(player);
+                fix.add(player.getName());
                 return;
             }
             if (Caching.getOpenInventoryMap().containsKey(player)) {
@@ -57,6 +64,7 @@ public class EventsManager implements Listener {
                 GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
                 if (clickedSlot > guiCategory.getStock().size() || guiCategory.getStock().get(clickedSlot) == null) {
                     Caching.getOpenInventoryMap().remove(player);
+                    fix.remove(player.getName());
                     return;
                 }
                 GUIStock guiStock = guiCategory.getStock().get(clickedSlot);
@@ -65,10 +73,19 @@ public class EventsManager implements Listener {
                 } else if (event.getClick().isRightClick()) {
                     guiStock.onRightClick(player);
                 }
+                fix.remove(player.getName());
                 Caching.getOpenInventoryMap().remove(player);
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onItemDrop(PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+        if (fix.contains(player.getName())) {
+            event.setCancelled(true);
         }
     }
 
