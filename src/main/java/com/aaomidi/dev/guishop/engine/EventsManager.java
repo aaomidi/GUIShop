@@ -6,6 +6,7 @@ import com.aaomidi.dev.guishop.engine.objects.GUICategory;
 import com.aaomidi.dev.guishop.engine.objects.GUIStock;
 import com.aaomidi.dev.guishop.utils.ConfigReader;
 import com.aaomidi.dev.guishop.utils.StringManager;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
@@ -23,6 +25,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class EventsManager implements Listener {
+    @Getter
     private static Set<String> fix;
     private final GUIShop _plugin;
     Pattern pattern;
@@ -64,7 +67,6 @@ public class EventsManager implements Listener {
                 GUICategory guiCategory = Caching.getOpenInventoryMap().get(player);
                 if (clickedSlot > guiCategory.getStock().size() || guiCategory.getStock().get(clickedSlot) == null) {
                     Caching.getOpenInventoryMap().remove(player);
-                    fix.remove(player.getName());
                     return;
                 }
                 GUIStock guiStock = guiCategory.getStock().get(clickedSlot);
@@ -73,7 +75,6 @@ public class EventsManager implements Listener {
                 } else if (event.getClick().isRightClick()) {
                     guiStock.onRightClick(player);
                 }
-                fix.remove(player.getName());
                 Caching.getOpenInventoryMap().remove(player);
             }
         } catch (Exception ex) {
@@ -85,6 +86,7 @@ public class EventsManager implements Listener {
     public void onItemDrop(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
         if (fix.contains(player.getName())) {
+            event.getItemDrop().setItemStack(new ItemStack(Material.AIR));
             event.setCancelled(true);
         }
     }
