@@ -6,34 +6,28 @@ import com.aaomidi.dev.guishop.engine.objects.GUICategory;
 import com.aaomidi.dev.guishop.engine.objects.GUIStock;
 import com.aaomidi.dev.guishop.utils.ConfigReader;
 import com.aaomidi.dev.guishop.utils.StringManager;
-import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public class EventsManager implements Listener {
-    @Getter
-    private static Set<String> fix;
     private final GUIShop _plugin;
     Pattern pattern;
 
     public EventsManager(GUIShop plugin) {
         _plugin = plugin;
         pattern = Pattern.compile("^[+]?\\d+$");
-        fix = new HashSet<>();
+
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -59,7 +53,6 @@ public class EventsManager implements Listener {
                 event.setCancelled(true);
                 GUICategory guiCategory = ConfigReader.getGuiCategories().get(clickedSlot);
                 guiCategory.onLeftClick(player);
-                fix.add(player.getName());
                 return;
             }
             if (Caching.getOpenInventoryMap().containsKey(player)) {
@@ -70,10 +63,14 @@ public class EventsManager implements Listener {
                     return;
                 }
                 GUIStock guiStock = guiCategory.getStock().get(clickedSlot);
-                if (event.getClick().isLeftClick()) {
+                if (event.getClick().equals(ClickType.LEFT)) {
                     guiStock.onLeftClick(player);
-                } else if (event.getClick().isRightClick()) {
+                } else if (event.getClick().equals(ClickType.RIGHT)) {
                     guiStock.onRightClick(player);
+                } else {
+                    StringManager.sendMessage(player, "&3Don't try to steal from the shop!");
+                    player.closeInventory();
+                    event.setCancelled(true);
                 }
                 Caching.getOpenInventoryMap().remove(player);
             }
@@ -82,14 +79,6 @@ public class EventsManager implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onItemDrop(PlayerDropItemEvent event) {
-        Player player = event.getPlayer();
-        if (fix.contains(player.getName())) {
-            event.getItemDrop().setItemStack(new ItemStack(Material.AIR));
-            event.setCancelled(true);
-        }
-    }
 
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

@@ -3,7 +3,6 @@ package com.aaomidi.dev.guishop.engine.objects;
 
 import com.aaomidi.dev.guishop.GUIShop;
 import com.aaomidi.dev.guishop.engine.Caching;
-import com.aaomidi.dev.guishop.engine.EventsManager;
 import com.aaomidi.dev.guishop.engine.modules.MenuBehaviour;
 import com.aaomidi.dev.guishop.utils.ConfigReader;
 import com.aaomidi.dev.guishop.utils.StringManager;
@@ -93,7 +92,6 @@ public class GUIStock extends MenuBehaviour {
         int buyableAmount = (int) Math.floor(playerBalance / buyPrice);
         StringManager.sendMessage(player, String.format("&bPlease type in the amount you want to buy.\n&bThe max you can buy is &e%d&b.", buyableAmount));
         Caching.getBuyInventoryMap().put(player, this);
-        EventsManager.getFix().remove(player.getName());
     }
 
     @Override
@@ -112,7 +110,6 @@ public class GUIStock extends MenuBehaviour {
             StringManager.sendMessage(player, String.format("&bPlease enter the amount you want to sell.\n&bThe max you can sell is &e%d&b.", count));
             Caching.getSellInventoryMap().put(player, this);
         }
-        EventsManager.getFix().remove(player.getName());
     }
 
     public void buy(Player player, int amount) {
