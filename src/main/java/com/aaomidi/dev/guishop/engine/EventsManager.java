@@ -70,7 +70,6 @@ public class EventsManager implements Listener {
                 } else {
                     StringManager.sendMessage(player, "&3Don't try to steal from the shop!");
                     player.closeInventory();
-                    event.setCancelled(true);
                 }
                 Caching.getOpenInventoryMap().remove(player);
             }
@@ -85,6 +84,8 @@ public class EventsManager implements Listener {
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
         if (Caching.getBuyInventoryMap().containsKey(player)) {
+            event.setCancelled(true);
+
             final GUIStock guiStock = Caching.getBuyInventoryMap().get(player);
             if (pattern.matcher(event.getMessage()).matches()) {
                 final Integer amount = Integer.valueOf(event.getMessage());
@@ -99,10 +100,10 @@ public class EventsManager implements Listener {
                 StringManager.sendMessage(player, "&3Please enter a number.");
             }
             Caching.getBuyInventoryMap().remove(player);
-            event.setCancelled(true);
             return;
         }
         if (Caching.getSellInventoryMap().containsKey(player)) {
+            event.setCancelled(true);
             final GUIStock guiStock = Caching.getSellInventoryMap().get(player);
             if (pattern.matcher(event.getMessage()).matches()) {
                 final Integer amount = Integer.valueOf(event.getMessage());
@@ -117,7 +118,6 @@ public class EventsManager implements Listener {
                 StringManager.sendMessage(player, "&3Please enter a number.");
             }
             Caching.getSellInventoryMap().remove(player);
-            event.setCancelled(true);
             return;
         }
     }

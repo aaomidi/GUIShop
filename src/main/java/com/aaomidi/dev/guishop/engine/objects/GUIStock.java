@@ -3,7 +3,7 @@ package com.aaomidi.dev.guishop.engine.objects;
 
 import com.aaomidi.dev.guishop.GUIShop;
 import com.aaomidi.dev.guishop.engine.Caching;
-import com.aaomidi.dev.guishop.engine.modules.MenuBehaviour;
+import com.aaomidi.dev.guishop.engine.Modules.MenuBehaviour;
 import com.aaomidi.dev.guishop.utils.ConfigReader;
 import com.aaomidi.dev.guishop.utils.StringManager;
 import lombok.AllArgsConstructor;

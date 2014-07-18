@@ -9,9 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Amir on 6/29/2014.
- */
+
 public class StringManager {
     private final GUIShop _plugin;
     private String prefix;
